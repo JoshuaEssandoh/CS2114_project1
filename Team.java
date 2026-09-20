@@ -4,7 +4,8 @@
  * winStreak, lossStreak, fatigue
  *
  * @author Robert Laing (rlaing4308)
- * @version Sep 18, 2026
+ * @author Andrew Park (andrewp04)
+ * @version Sep 20, 2026
  */
 public class Team
 {
@@ -13,12 +14,12 @@ public class Team
     private int wins; // Wins the team has
     private int losses; // Losses the team has
     private int ties; // The amount of ties the team has
-    private float offensiveRating; // The team's offensive rating
-    private float defensiveRating; // The team's defensive rating
-    private float strength; // The team's calculated strength
+    private double offensiveRating; // The team's offensive rating
+    private double defensiveRating; // The team's defensive rating
+    private double strength; // The team's calculated strength
     private int winStreak; // The team's current winning streak
     private int lossStreak; // The team's current loss streak
-    private float fatigue; // The team's current fatigue
+    private double fatigue; // The team's current fatigue
 
     // ----------------------------------------------------------
     /**
@@ -37,9 +38,9 @@ public class Team
         String name,
         int wins,
         int losses,
-        float offensiveRating,
-        float defensiveRating,
-        float strength)
+        double offensiveRating,
+        double defensiveRating,
+        double strength)
     {
         setName(name);
         setWins(wins);
@@ -156,9 +157,14 @@ public class Team
      *
      * @param ties
      *            the new tie count
+     * @throws IllegalArgumentException if ties value is negative
      */
     public void setTies(int ties)
     {
+        if (ties < 0)
+        {
+            throw new IllegalArgumentException("Ties cannot be negative.");
+        }
         this.ties = ties;
     }
 
@@ -184,9 +190,9 @@ public class Team
      * @throws IllegalArgumentException
      *             if offRate is outside the range [0, 99]
      */
-    public void setOffensiveRating(float offRate)
+    public void setOffensiveRating(double offRate)
     {
-        if (offRate < 0.0f || offRate > 99.0f)
+        if (offRate < 0.0 || offRate > 99.0)
         {
             throw new IllegalArgumentException(
                 "Offensive rating must be between 0 and 99.");
@@ -201,7 +207,7 @@ public class Team
      *
      * @return defensiveRating
      */
-    public float getDefensiveRating()
+    public double getDefensiveRating()
     {
         return defensiveRating;
     }
@@ -214,9 +220,9 @@ public class Team
      * @param defRate the new defensive rating; must be between 0 and 99
      * @throws IllegalArgumentException if defRate is outside the range [0, 99]
      */
-    public void setDefensiveRating(float defRate)
+    public void setDefensiveRating(double defRate)
     {
-        if (defRate < 0.0f || defRate > 99.0f)
+        if (defRate < 0.0 || defRate > 99.0)
         {
             throw new IllegalArgumentException(
                 "Defensive rating must be between 0 and 99.");
@@ -231,7 +237,7 @@ public class Team
      *
      * @return strength
      */
-    public float getStrength()
+    public double getStrength()
     {
         return strength;
     }
@@ -243,7 +249,7 @@ public class Team
      *
      * @param strength the new strength value
      */
-    public void setStrength(float strength)
+    public void setStrength(double strength)
     {
         this.strength = strength;
     }
@@ -266,9 +272,14 @@ public class Team
      * Sets a team's current winning streak.
      *
      * @param winStreak the new winning streak value
+     * @throws IllegalArgumentException if win streak is negative
      */
     public void setWinStreak(int winStreak)
     {
+        if (winStreak < 0)
+        {
+            throw new IllegalArgumentException("Win streak cannot be negative.");
+        }
         this.winStreak = winStreak;
     }
 
@@ -290,9 +301,14 @@ public class Team
      * Sets a team's current losing streak.
      *
      * @param lossStreak the new losing streak value
+     * @throws IllegalArgumentException if loss streak is negative
      */
     public void setLossStreak(int lossStreak)
     {
+        if (lossStreak < 0)
+        {
+            throw new IllegalArgumentException("Loss streak cannot be negative.");
+        }
         this.lossStreak = lossStreak;
     }
 
@@ -303,7 +319,7 @@ public class Team
      *
      * @return fatigue
      */
-    public float getFatigue()
+    public double getFatigue()
     {
         return fatigue;
     }
@@ -314,12 +330,29 @@ public class Team
      * Sets a team's current fatigue value.
      *
      * @param fatigue the new fatigue value
+     * @throws IllegalArgumentException if fatigue is negative
      */
-    public void setFatigue(float fatigue)
+    public void setFatigue(double fatigue)
     {
+        if (fatigue < 0.0)
+        {
+            throw new IllegalArgumentException("Fatigue cannot be negative.");
+        }
         this.fatigue = fatigue;
     }
 
+    /**
+     * Calculates the winrate. Default to 0.500 when no wins or losses.
+     * @return win rate (0.0 to 1.0)
+     */
+    public double getWinRate()
+    {
+        if (wins + losses == 0)
+        {
+            return 0.500;
+        }
+        return (wins + (0.5 * ties)) / totalGames;
+    }
 
     // ----------------------------------------------------------
     /**
@@ -345,13 +378,12 @@ public class Team
         if (obj.getClass() == this.getClass())
         {
             Team other = (Team)obj;
-            if (other.getName().equals(this.teamName))
-            {
-                return true;
-            }
+            return other.getName().equals(this.teamName);
         }
         return false;
     }
+
+    
 
 
     // ----------------------------------------------------------
