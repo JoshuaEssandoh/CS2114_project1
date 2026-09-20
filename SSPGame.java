@@ -6,7 +6,8 @@ import java.util.Scanner;
  * menu/input/prediction logic to be added later.
  *
  * @author Robert Laing (rlaing4308)
- * @version Sep 18, 2026
+ * @author Andrew Park (andrewp04)
+ * @version Sep 20, 2026
  */
 public class SSPGame
 {
@@ -15,7 +16,13 @@ public class SSPGame
     private PredictionEngine predictionEngine; // To run predict within the
                                                // class
 
-    // ----------------------------------------------------------
+    
+    public SSPGame()
+    {
+        this.scanner = new Scanner(System.in);
+        this.predictionEngine = new PredictionEngine();
+    }
+                                               // ----------------------------------------------------------
     /**
      * Displays menu, reads input, creates teams, etc.
      */
