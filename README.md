@@ -1,18 +1,18 @@
-# Super Sports Predictor (SSP)
+## Super Sports Predictor (SSP)
 
 A Java-based sports outcome prediction engine developed for **CS 2114 (Software Design & Data Structures)**.  
 The system evaluates team records, offensive/defensive metrics, momentum, and fatigue to generate matchup forecasts with calibrated confidence levels.
 
 ---
 
-## 👥 Contributors & Authors
-* **Andrew Park** (andrewp04)
-* **Robert Laing** (rlaing4308)
-* **Joshua Essandoh** (jessandoh7)
+## Contributors & Authors
+**Andrew Park** (andrewp04)
+**Robert Laing** (rlaing4308)
+**Joshua Essandoh** (jessandoh7)
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 Super Sports Predictor (SSP) models sports teams using standardized metrics (Wins, Losses, Ties, Offensive/Defensive ratings, Streaks, Fatigue) and predicts the winner of a matchup using a weighted prediction algorithm.
 
 ### Key Components:
@@ -27,7 +27,7 @@ Super Sports Predictor (SSP) models sports teams using standardized metrics (Win
 
 ---
 
-## 🚀 How to Run the Application
+## How to Run the Application
 
 ### 1. Running the CLI Interface
 1. In Eclipse, navigate to `(default package) -> SSPGame.java`.
@@ -45,7 +45,7 @@ All business logic and edge cases are validated via JUnit (`student.TestCase`):
 
 ---
 
-## 🛡️ Input Validation & Business Rules
+## Input Validation & Business Rules
 * **Name**: Cannot be `null`, empty, or whitespace-only.
 * **Record (Wins, Losses, Ties)**: Non-negative integers.
 * **Ratings (Offensive & Defensive)**: Range `[0.0, 99.0]`.
@@ -57,7 +57,7 @@ All business logic and edge cases are validated via JUnit (`student.TestCase`):
 
 ---
 
-## 📋 Sample Run
+## Sample Run
 
 ```text
 ========================================
