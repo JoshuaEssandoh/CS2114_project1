@@ -5,7 +5,9 @@ import student.TestCase;
  * JUnit test class for Team. One test method per Team method.
  *
  * @author Robert Laing (rlaing4308)
- * @version Sep 18, 2026
+ * @author Andrew Park (andrewp04)
+ * @author Joshua Essandoh
+ * @version Sep 21, 2026
  */
 
 public class TeamTest extends student.TestCase
@@ -17,7 +19,7 @@ public class TeamTest extends student.TestCase
      * Sets up the test Team object
      */
     public void setUp() {
-        team = new Team("Hokies", 10, 5, 80.0f, 75.0f, 50.0f);
+        team = new Team("Hokies", 10, 5, 0, 80.0, 75.0);
     }
 
     // ----------------------------------------------------------
@@ -122,15 +124,15 @@ public class TeamTest extends student.TestCase
      */
     public void testOffensiveRating()
     {
-        assertEquals(80.0f, team.getOffensiveRating());
+        assertEquals(80.0, team.getOffensiveRating(), 0.01);
  
-        team.setOffensiveRating(90.0f);
-        assertEquals(90.0f, team.getOffensiveRating());
+        team.setOffensiveRating(90.0);
+        assertEquals(90.0, team.getOffensiveRating(), 0.01);
  
         Exception e = null;
         try
         {
-            team.setOffensiveRating(-0.1f);
+            team.setOffensiveRating(-0.1);
         }
         catch (IllegalArgumentException ex)
         {
@@ -141,7 +143,7 @@ public class TeamTest extends student.TestCase
         e = null;
         try
         {
-            team.setOffensiveRating(99.1f);
+            team.setOffensiveRating(99.1);
         }
         catch (IllegalArgumentException ex)
         {
@@ -157,15 +159,15 @@ public class TeamTest extends student.TestCase
      */
     public void testDefensiveRating()
     {
-        assertEquals(75.0f, team.getDefensiveRating());
+        assertEquals(75.0, team.getDefensiveRating(), 0.01);
  
-        team.setDefensiveRating(60.0f);
-        assertEquals(60.0f, team.getDefensiveRating());
+        team.setDefensiveRating(60.0);
+        assertEquals(60.0, team.getDefensiveRating(), 0.01);
  
         Exception e = null;
         try
         {
-            team.setDefensiveRating(-0.1f);
+            team.setDefensiveRating(-0.1);
         }
         catch (IllegalArgumentException ex)
         {
@@ -176,7 +178,7 @@ public class TeamTest extends student.TestCase
         e = null;
         try
         {
-            team.setDefensiveRating(99.1f);
+            team.setDefensiveRating(99.1);
         }
         catch (IllegalArgumentException ex)
         {
@@ -185,18 +187,6 @@ public class TeamTest extends student.TestCase
         assertNotNull(e);
     }
  
- 
-    // ----------------------------------------------------------
-    /**
-     * Tests getStrength() and setStrength(float).
-     */
-    public void testStrength()
-    {
-        assertEquals(50.0f, team.getStrength());
- 
-        team.setStrength(72.5f);
-        assertEquals(72.5f, team.getStrength());
-    }
  
  
     // ----------------------------------------------------------
@@ -209,6 +199,32 @@ public class TeamTest extends student.TestCase
  
         team.setWinStreak(4);
         assertEquals(4, team.getWinStreak());
+        
+        team.setWinStreak(2);
+        assertEquals(0, team.getLossStreak());
+        assertEquals(2, team.getWinStreak());
+        
+        Exception negativeEx = null;
+        try
+        {
+            team.setWinStreak(-1);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            negativeEx = ex;
+        }
+        assertNotNull(negativeEx);
+        
+        Exception exceedEx = null;
+        try
+        {
+            team.setWinStreak(11);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            exceedEx = ex;
+        }
+        assertNotNull(exceedEx);
     }
  
  
@@ -222,6 +238,32 @@ public class TeamTest extends student.TestCase
  
         team.setLossStreak(2);
         assertEquals(2, team.getLossStreak());
+
+        team.setLossStreak(2);
+        assertEquals(2, team.getLossStreak());
+        assertEquals(0, team.getWinStreak());
+        
+        Exception negativeEx = null;
+        try
+        {
+            team.setLossStreak(-1);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            negativeEx = ex;
+        }
+        assertNotNull(negativeEx);
+
+        Exception exceedEx = null;
+        try
+        {
+            team.setLossStreak(6);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            exceedEx = ex;
+        }
+        assertNotNull(exceedEx);
     }
  
  
@@ -231,27 +273,42 @@ public class TeamTest extends student.TestCase
      */
     public void testFatigue()
     {
-        assertEquals(0.0f, team.getFatigue());
+        assertEquals(0.0, team.getFatigue(), 0.01);
  
-        team.setFatigue(15.5f);
-        assertEquals(15.5f, team.getFatigue());
+        team.setFatigue(15.5);
+        assertEquals(15.5, team.getFatigue(), 0.01);
     }
  
+    // ----------------------------------------------------------
+    /**
+     * Tests getWinRate()
+     */
+    public void testWinRate()
+    {
+        assertEquals(10.0 / 15.0, team.getWinRate(), 0.01);
+
+        team.setTies(5);
+        assertEquals(0.625, team.getWinRate(), 0.01);
+
+        Team unplayed = new Team("team1", 0, 0, 0, 50.0, 50.0);
+        assertEquals(0.500, unplayed.getWinRate(), 0.001);
+    }
  
     // ----------------------------------------------------------
     /**
      * Tests equals(Object).
      */
+    @SuppressWarnings("unlikely-arg-type")
     public void testEquals()
     {
         assertTrue(team.equals(team));
         assertFalse(team.equals(null));
         assertFalse(team.equals("Hokies"));
  
-        Team differentName = new Team("Cavaliers", 10, 5, 80.0f, 75.0f, 50.0f);
+        Team differentName = new Team("Cavaliers", 10, 5, 0, 80.0, 75.0);
         assertFalse(team.equals(differentName));
  
-        Team sameName = new Team("Hokies", 2, 2, 40.0f, 40.0f, 10.0f);
+        Team sameName = new Team("Hokies", 2, 2, 0, 40.0, 40.0);
         assertTrue(team.equals(sameName));
     }
  
@@ -263,7 +320,7 @@ public class TeamTest extends student.TestCase
     public void testToString()
     {
         String expected = "Team[name=Hokies, wins=10, losses=5, ties=0, "
-            + "offensiveRating=80.0, defensiveRating=75.0, strength=50.0]";
+            + "offensiveRating=80.0, defensiveRating=75.0]";
         assertEquals(expected, team.toString());
     }
 }

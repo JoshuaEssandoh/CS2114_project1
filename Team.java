@@ -5,6 +5,7 @@
  *
  * @author Robert Laing (rlaing4308)
  * @author Andrew Park (andrewp04)
+ * @author Joshua Essandoh
  * @version Sep 21, 2026
  */
 public class Team
@@ -16,7 +17,6 @@ public class Team
     private int ties; // The amount of ties the team has
     private double offensiveRating; // The team's offensive rating
     private double defensiveRating; // The team's defensive rating
-    private double strength; // The team's calculated strength
     private int winStreak; // The team's current winning streak
     private int lossStreak; // The team's current loss streak
     private double fatigue; // The team's current fatigue
@@ -30,24 +30,28 @@ public class Team
      * @param name the team's name; cannot be null, empty, or whitespace only
      * @param wins the team's win count; cannot be negative
      * @param losses the team's loss count; cannot be negative
+     * @param ties the team's tie count; cannot be negative
      * @param offensiveRating the team's offensive rating; must be between 0 and 99
      * @param defensiveRating the team's defensive rating; must be between 0 and 99
-     * @param strength the team's calculated strength
      */
     public Team(
         String name,
         int wins,
         int losses,
+        int ties, 
         double offensiveRating,
-        double defensiveRating,
-        double strength)
+        double defensiveRating)
     {
         setName(name);
         setWins(wins);
         setLosses(losses);
+        setTies(ties);
         setOffensiveRating(offensiveRating);
         setDefensiveRating(defensiveRating);
-        this.strength = strength;
+        
+        this.winStreak = 0;
+        this.lossStreak = 0;
+        this.fatigue = 0.0;
     }
 
 
@@ -230,31 +234,6 @@ public class Team
         this.defensiveRating = defRate;
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Gets a team's calculated strength.
-     *
-     * @return strength
-     */
-    public double getStrength()
-    {
-        return strength;
-    }
-
-
-    // ----------------------------------------------------------
-    /**
-     * Sets a team's calculated strength.
-     *
-     * @param strength the new strength value
-     */
-    public void setStrength(double strength)
-    {
-        this.strength = strength;
-    }
-
-
     // ----------------------------------------------------------
     /**
      * Gets a team's current winning streak.
@@ -272,13 +251,22 @@ public class Team
      * Sets a team's current winning streak.
      *
      * @param winStreak the new winning streak value
-     * @throws IllegalArgumentException if win streak is negative
+     * @throws IllegalArgumentException 
+     *         if win streak is negative or exceeds wins
      */
     public void setWinStreak(int winStreak)
     {
         if (winStreak < 0)
         {
             throw new IllegalArgumentException("Win streak cannot be negative.");
+        }
+        if (winStreak > this.wins)
+        {
+            throw new IllegalArgumentException("Win streak cannot exceed total wins.");
+        }
+        if (winStreak > 0 && this.lossStreak > 0)
+        {
+            throw new IllegalArgumentException("Cannot have an active win streak while on a loss streak.");
         }
         this.winStreak = winStreak;
     }
@@ -301,13 +289,22 @@ public class Team
      * Sets a team's current losing streak.
      *
      * @param lossStreak the new losing streak value
-     * @throws IllegalArgumentException if loss streak is negative
+     * @throws IllegalArgumentException 
+     *         if loss streak is negative or exceeds losses
      */
     public void setLossStreak(int lossStreak)
     {
         if (lossStreak < 0)
         {
             throw new IllegalArgumentException("Loss streak cannot be negative.");
+        }
+        if (lossStreak > this.losses)
+        {
+            throw new IllegalArgumentException("Loss streak cannot exceed total losses.");
+        }
+        if (lossStreak > 0 && this.winStreak > 0)
+        {
+            throw new IllegalArgumentException("Cannot have an active loss streak while on a win streak.");
         }
         this.lossStreak = lossStreak;
     }
@@ -348,12 +345,13 @@ public class Team
     public double getWinRate()
     {
         double totalGames = wins + losses + ties;
-        if (wins + losses == 0)
+        if (totalGames == 0)
         {
             return 0.500;
         }
         return (wins + (0.5 * ties)) / totalGames;
     }
+ 
 
     // ----------------------------------------------------------
     /**
@@ -398,7 +396,6 @@ public class Team
     {
         return "Team[name=" + teamName + ", wins=" + wins + ", losses="
             + losses + ", ties=" + ties + ", offensiveRating="
-            + offensiveRating + ", defensiveRating=" + defensiveRating
-            + ", strength=" + strength + "]";
+            + offensiveRating + ", defensiveRating=" + defensiveRating + "]";
     }
 }

@@ -5,7 +5,9 @@ import student.TestCase;
 /**
  * Test class for PredictionEngine.
  *
- * @author Andrew Park
+ * @author Robert Laing (rlaing4308)
+ * @author Andrew Park (andrewp04)
+ * @author Joshua Essandoh
  * @version Sep 21, 2026
  */
 public class PredictionEngineTest extends student.TestCase
@@ -22,8 +24,8 @@ public class PredictionEngineTest extends student.TestCase
     {
         // Seed 42 ensures predictable pseudorandom values across test runs
         engine = new PredictionEngine(new Random(42));
-        strongTeam = new Team("Hokies", 10, 2, 85.0, 70.0, 50.0);
-        weakTeam = new Team("Cavaliers", 3, 9, 60.0, 80.0, 50.0);
+        strongTeam = new Team("Hokies", 10, 2, 0, 85.0, 70.0);
+        weakTeam = new Team("Cavaliers", 3, 9, 0, 60.0, 80.0);
     }
 
     // ----------------------------------------------------------
@@ -56,8 +58,8 @@ public class PredictionEngineTest extends student.TestCase
         assertTrue(ratingShare > 0.5);
 
         // Edge case: Both teams have 0.0 ratings (triggers total == 0.0)
-        Team zeroTeam1 = new Team("Alpha", 5, 5, 0.0, 0.0, 50.0);
-        Team zeroTeam2 = new Team("Beta", 5, 5, 0.0, 0.0, 50.0);
+        Team zeroTeam1 = new Team("Alpha", 5, 5, 0, 0.0, 0.0);
+        Team zeroTeam2 = new Team("Beta", 5, 5, 0, 0.0, 0.0);
         assertEquals(0.5, engine.predictRating(zeroTeam1, zeroTeam2), 0.001);
     }
 
@@ -90,8 +92,8 @@ public class PredictionEngineTest extends student.TestCase
         double winRateShare = engine.predictWinRate(strongTeam, weakTeam);
         assertTrue(winRateShare > 0.5);
 
-        Team tieTeam1 = new Team("TeamA", 0, 0, 50.0, 50.0, 50.0);
-        Team tieTeam2 = new Team("TeamB", 0, 0, 50.0, 50.0, 50.0);
+        Team tieTeam1 = new Team("TeamA", 0, 0, 0, 50.0, 50.0);
+        Team tieTeam2 = new Team("TeamB", 0, 0, 0, 50.0, 50.0);
         assertEquals(0.5, engine.predictWinRate(tieTeam1, tieTeam2), 0.001);
     }
 
@@ -157,7 +159,7 @@ public class PredictionEngineTest extends student.TestCase
             assertEquals("Cannot predict matchup between identical teams.", e.getMessage());
         }
 
-        Team duplicateNameTeam = new Team("Hokies", 1, 1, 40.0, 40.0, 50.0);
+        Team duplicateNameTeam = new Team("Hokies", 1, 1, 0, 40.0, 40.0);
         try
         {
             engine.predict(strongTeam, duplicateNameTeam);

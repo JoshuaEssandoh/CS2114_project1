@@ -6,6 +6,8 @@ import java.util.Random;
 /**
  * Compares two teams and predicts the winner of their matchup.
  *
+ * @author Robert Laing (rlaing4308)
+ * @author Andrew Park (andrewp04)
  * @author Joshua Essandoh
  * @version Sep 21, 2026
  */

@@ -7,6 +7,7 @@ import java.util.Scanner;
  *
  * @author Robert Laing (rlaing4308)
  * @author Andrew Park (andrewp04)
+ * @author Joshua Essandoh
  * @version Sep 21, 2026
  */
 public class SSPGame
@@ -16,6 +17,10 @@ public class SSPGame
     private PredictionEngine predictionEngine; 
 
     
+    // ----------------------------------------------------------
+    /**
+     * Create a new SSPGame object.
+     */
     public SSPGame()
     {
         this.scanner = new Scanner(System.in);
@@ -78,34 +83,121 @@ public class SSPGame
      */
     private Team promptForTeam()
     {
-        System.out.print("Team Name: ");
-        String name = scanner.nextLine();
+        String name;
+        while (true)
+        {
+            System.out.print("Team Name: ");
+            name = scanner.nextLine();
+            if (name != null && !name.trim().isEmpty())
+            {
+                break;
+            }
+            System.out.println("[Error] Team name cannot be empty. Please try again.");
+        }
 
-        System.out.print("Wins: ");
-        int wins = Integer.parseInt(scanner.nextLine().trim());
+        int wins;
+        while (true)
+        {
+            System.out.print("Wins: ");
+            wins = Integer.parseInt(scanner.nextLine().trim());
+            if (wins >= 0)
+            {
+                break;
+            }
+            System.out.println("[Error] Wins cannot be negative. Please try again.");
+        }
 
-        System.out.print("Losses: ");
-        int losses = Integer.parseInt(scanner.nextLine().trim());
+        int losses;
+        while (true)
+        {
+            System.out.print("Losses: ");
+            losses = Integer.parseInt(scanner.nextLine().trim());
+            if (losses >= 0)
+            {
+                break;
+            }
+            System.out.println("[Error] Losses cannot be negative. Please try again.");
+        }
 
-        System.out.print("Offensive Rating (0.0 - 99.0): ");
-        double offRating = Double.parseDouble(scanner.nextLine().trim());
+        int ties;
+        while (true)
+        {
+            System.out.print("Ties: ");
+            ties = Integer.parseInt(scanner.nextLine().trim());
+            if (ties >= 0)
+            {
+                break;
+            }
+            System.out.println("[Error] Ties cannot be negative. Please try again.");
+        }
 
-        System.out.print("Defensive Rating (0.0 - 99.0): ");
-        double defRating = Double.parseDouble(scanner.nextLine().trim());
+        double offRating;
+        while (true)
+        {
+            System.out.print("Offensive Rating (0.0 - 99.0): ");
+            offRating = Double.parseDouble(scanner.nextLine().trim());
+            if (offRating >= 0.0 && offRating <= 99.0)
+            {
+                break;
+            }
+            System.out.println("[Error] Offensive rating must be between 0 and 99. Please try again.");
+        }
 
-        System.out.print("Team Strength (calculated base, e.g. 50.0): ");
-        double strength = Double.parseDouble(scanner.nextLine().trim());
+        double defRating;
+        while (true)
+        {
+            System.out.print("Defensive Rating (0.0 - 99.0): ");
+            defRating = Double.parseDouble(scanner.nextLine().trim());
+            if (defRating >= 0.0 && defRating <= 99.0)
+            {
+                break;
+            }
+            System.out.println("[Error] Defensive rating must be between 0 and 99. Please try again.");
+        }
 
-        Team team = new Team(name, wins, losses, offRating, defRating, strength);
+        Team team = new Team(name, wins, losses, ties, offRating, defRating);
 
-        System.out.print("Win Streak: ");
-        team.setWinStreak(Integer.parseInt(scanner.nextLine().trim()));
+        while (true)
+        {
+            try
+            {
+                System.out.print("Win Streak: ");
+                team.setWinStreak(Integer.parseInt(scanner.nextLine().trim()));
+                break;
+            }
+            catch (IllegalArgumentException e)
+            {
+                System.out.println("[Error] " + e.getMessage() + " Please try again.");
+            }
+        }
 
-        System.out.print("Loss Streak: ");
-        team.setLossStreak(Integer.parseInt(scanner.nextLine().trim()));
+        while (true)
+        {
+            try
+            {
+                System.out.print("Loss Streak: ");
+                team.setLossStreak(Integer.parseInt(scanner.nextLine().trim()));
+                break;
+            }
+            catch (IllegalArgumentException e)
+            {
+                System.out.println("[Error] " + e.getMessage() + " Please try again.");
+            }
+        }
 
-        System.out.print("Fatigue (>= 0.0): ");
-        team.setFatigue(Double.parseDouble(scanner.nextLine().trim()));
+        while (true)
+        {
+            try
+            {
+                System.out.print("Fatigue (>= 0.0): ");
+                team.setFatigue(Double.parseDouble(scanner.nextLine().trim()));
+                break;
+            }
+            catch (IllegalArgumentException e)
+            {
+                System.out.println("[Error] " + e.getMessage() + " Please try again.");
+            }
+        }
 
         return team;
     }

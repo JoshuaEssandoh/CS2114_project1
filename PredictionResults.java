@@ -4,6 +4,8 @@
 /**
  * Stores and summarizes the result produced by a PredictionEngine.
  *
+ * @author Robert Laing (rlaing4308)
+ * @author Andrew Park (andrewp04)
  * @author Joshua Essandoh
  * @version Sep 21, 2026
  */

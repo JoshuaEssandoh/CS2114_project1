@@ -1,11 +1,12 @@
-//import student.TestCase;
+import student.TestCase;
 
 // -------------------------------------------------------------------------
 
 /**
  * Test class for PredictionResults.
  *
- * @author Andrew Park
+ * @author Robert Laing (rlaing4308)
+ * @author Andrew Park (andrewp04)
  * @author Joshua Essandoh
  * @version Sep 21, 2026
  */
@@ -19,7 +20,7 @@ public class PredictionResultsTest extends student.TestCase
      */
     public void setUp()
     {
-        winner = new Team("Hokies", 10, 2, 85.0, 75.0, 50.0);
+        winner = new Team("Hokies", 10, 2, 0, 85.0, 75.0);
     }
 
     // ----------------------------------------------------------
