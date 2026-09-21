@@ -92,7 +92,8 @@ public class SSPGame
             {
                 break;
             }
-            System.out.println("[Error] Team name cannot be empty. Please try again.");
+            System.out.println("[Error] Team name cannot be null, empty, or "
+                + "whitespace only. Please try again.");
         }
 
         int wins;
