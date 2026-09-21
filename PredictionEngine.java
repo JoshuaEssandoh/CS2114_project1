@@ -8,7 +8,7 @@ import java.util.Random;
  *
  * @author Robert Laing (rlaing4308)
  * @author Andrew Park (andrewp04)
- * @author Joshua Essandoh
+ * @author Joshua Essandoh (jessandoh7)
  * @version Sep 21, 2026
  */
 public class PredictionEngine
