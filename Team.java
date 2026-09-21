@@ -5,7 +5,7 @@
  *
  * @author Robert Laing (rlaing4308)
  * @author Andrew Park (andrewp04)
- * @version Sep 20, 2026
+ * @version Sep 21, 2026
  */
 public class Team
 {
@@ -175,7 +175,7 @@ public class Team
      *
      * @return offensiveRating
      */
-    public float getOffensiveRating()
+    public double getOffensiveRating()
     {
         return offensiveRating;
     }
@@ -347,6 +347,7 @@ public class Team
      */
     public double getWinRate()
     {
+        double totalGames = wins + losses + ties;
         if (wins + losses == 0)
         {
             return 0.500;
